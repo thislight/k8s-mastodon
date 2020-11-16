@@ -22,7 +22,7 @@ spec:
   selector:
     matchLabels:
       app: mastodon
-      tier: frontend
+      tier: smtp-gate
   strategy:
     type: Recreate
   template:
