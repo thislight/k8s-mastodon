@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtp-gate
+  labels:
+    app: mastodon
+spec:
+  ports:
+    - port: 25
+  selector:
+    app: mastodon
+    tier: smtp-gate
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Depolyment
+metadata:
+  name: smtp-gate
+  labels:
+    app: mastodon
+spec:
+  selector:
+    matchLabels:
+      app: mastodon
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: smtp-gate
+      labels:
+        app: mastodon
+    containers:
+      - image: bytemark/smtp:stretch
+        name: smtp-gate
+        ports:
+          - containerPort: 25
+            name: smtp-gate

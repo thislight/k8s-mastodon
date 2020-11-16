@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+metadata:
+  name: smtp-gate
+# spec:
+  # env: # If you define nothing, the smtp-gate will work as a normal relay. Else it will work as a smart relay.
+    # - name: RELAY_HOST
+    #   value: "example.org"
+    # - name: RELAY_PORT
+    #   value: "587"
+    # - name: RELAY_USERNAME
+    #   value: "bob@example.org"
+    # - name: RELAY_PASSWORD
+    #   value: "secretpass"

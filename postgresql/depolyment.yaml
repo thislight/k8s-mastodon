@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  labels:
+    app: mastodon
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: mastodon
+    tier: postgresql
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql-pv-claim
+  labels:
+    app: mastodon
+spec:
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: mastodon
+spec:
+  selector:
+    matchLabels:
+      app: mastodon
+      tier: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mastodon
+        tier: postgresql
+    spec:
+      containers:
+        - image: postgres:13-alpine
+          name: postgresql
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-pass
+                  key: password
+          ports:
+            - containerPort: 5432
+              name: postgresql
+          volumeMounts:
+            - name: postgresql-persistent-storage
+              mountPath: /var/lib/postgresql
+        volumes:
+          - name: postgresql-persistent-storage
+            persistentVolumeClaim:
+              claimName: postgresql-pv-claim

@@ -1,0 +1,14 @@
+namespace: mastodon
+secretGenerator:
+- name: postgresql-pass
+  literals:
+  - password=YOUR_PASSWORD
+resources:
+  - postgresql/depolyment.yaml
+  - mastodon/depolyment.yaml
+  - smtp-gate/depolyment.yaml
+patchStrategicMerge:
+  - postgresql/pvsize.yaml
+  - mastodon/system-pvsize.yaml
+  - mastodon/configuration.yaml
+  - smtp-gate/configuration.yaml

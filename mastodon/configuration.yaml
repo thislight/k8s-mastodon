@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+metadata:
+  name: mastodon
+spec:
+  # Fedration
+  - name: LOCAL_DOMAIN
+    value: example.org
+  - name: WEB_DOMAIN
+    value: example.org
+  # - name: ALTERNATIVE_DOMAINS
+  #   value: "foo.bar, example.com"
+  - name: AUTHORIZED_FETCH
+    value: "false"
+  - name: LIMITED_FEDERATION_MODE
+    value: "false"
+  # Secrets
+  # The Secrets should be generated before initially startup
+  # Depolyment
+  # - name: TRUSTED_PROXY_IP
+  #  value: "127.0.0.1"
+  # Scaling
+  - name: STREAMING_API_BASE_URL
+    value: "wss://example.com"
+  # - name: STREAMING_CLUSTER_NUM
+  #   value: 2
+  # Limits
+  - name: SINGLE_USER_MODE
+    value: "false"
+  # - name: EMAIL_DOMAIN_ALLOWLIST
+  #   value: "foo.bar|example.xyz"
+  # - name: DEFAULT_LOCALE
+  #   value: "" # See https://docs.joinmastodon.org/admin/config/ for avaliable options
+  - name: MAX_SESSION_ACTIVATIONS
+    value: "10"
+  - name: USER_ACTIVE_DAYS
+    value: "7"
+  # Email
+  - name: SMTP_SERVER
+    value: smtp-gate
